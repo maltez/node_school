@@ -4,13 +4,15 @@ const app = require('express')();
 
 // Routes import
 const index = require('./routes/index.router');
+const planets = require('./routes/planets.router');
 
 const logger = require('./utilities/logger');
 
 // Middleware register
 app.use(logger);
 
-app.use('/', index);
+app.use('/base', index);
+app.use('/planet', planets);
 
 
 const server = http.createServer(app);
