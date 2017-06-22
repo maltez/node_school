@@ -1,17 +1,15 @@
 const config = require('./config/server.config');
 const http = require('http');
+const morgan = require('morgan');
 const app = require('express')();
 
 // Routes import
 const index = require('./routes/index.router');
 
-const logger = require('./utilities/logger');
-
 // Middleware register
-app.use(logger);
+app.use(morgan('tiny'));
 
 app.use('/', index);
-
 
 const server = http.createServer(app);
 
