@@ -2,30 +2,42 @@ const responseService = require('../services/response.service');
 
 class BaseRouter {
     constructor(router) {
-        router.get('/', (req, res) => {
-            const result = responseService.responseOk();
-            res.json(result);
-        });
+        this.router = router;
+        this.createRoutes();
+    }
 
-        router.post('/', (req, res) => {
-            const result = { param: req.params.id };
-            res.json(result);
-        })
+    createRoutes() {
+        const { router } = this;
+        router.get('/', this.get.bind(this));
+        router.post('/', this.post.bind(this))
+        router.delete('/:id', this.delete.bind(this));
+        router.put('/:id', this.put.bind(this));
+        router.get('/:id', this.getById.bind(this));
+    }
 
-        router.delete('/:id', (req, res) => {
-            const result = { param: req.params.id };
-            res.json(result);
-        });
+    get(req, res) {
+        const result = responseService.responseOk();
+        res.json(result);
+    }
 
-        router.put('/:id', (req, res) => {
-            const result = { param: req.params.id };
-            res.json(result);
-        });
+    post(req, res) {
+        const result = { param: req.params.id };
+        res.json(result);
+    }
 
-        router.get('/:id', (req, res) => {
-            const result = { param: req.params.id };
-            res.json(result);
-        });
+    delete(req, res) {
+        const result = { param: req.params.id };
+        res.json(result);
+    }
+
+    put(req, res) {
+        const result = { param: req.params.id };
+        res.json(result);
+    }
+
+    getById(req, res) {
+        const result = { param: req.params.id };
+        res.json(result);
     }
 }
 
