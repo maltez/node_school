@@ -1,6 +1,7 @@
 const config = require('./config/server.config');
 const http = require('http');
-const app = require('express')();
+const express = require('express');
+const app = express();
 
 // Routes import
 const index = require('./routes/index.router');
@@ -10,6 +11,7 @@ const logger = require('./utilities/logger');
 // Middleware register
 app.use(logger);
 
+app.use('/index', express.static('public'));
 app.use('/', index);
 
 
