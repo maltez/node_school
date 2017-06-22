@@ -7,6 +7,8 @@ const index = require('./routes/index.router');
 
 const logger = require('./utilities/logger');
 
+app.set('view engine', 'ejs');
+
 // Middleware register
 app.use(logger);
 
