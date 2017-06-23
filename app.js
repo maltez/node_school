@@ -16,6 +16,9 @@ app.set('view engine', 'ejs');
 // Middleware register
 app.use(morgan('tiny'));
 
+
+app.use('/index', express.static('public'));
+app.use('/', index);
 app.use('/base', index);
 app.use('/planet', planets);
 
