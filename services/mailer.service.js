@@ -10,10 +10,9 @@ class MailerService {
         return new Promise((resolve, reject) => {
             return this.transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-                    reject(new Error(error));
-                    return;
+                    return reject(new Error(error));
                 }
-                resolve(info);
+                return resolve(info);
             });
         })
     }
