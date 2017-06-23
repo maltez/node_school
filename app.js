@@ -11,6 +11,8 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('./db/connection.db');
 
+app.set('view engine', 'ejs');
+
 // Middleware register
 app.use(morgan('tiny'));
 
