@@ -1,10 +1,15 @@
 const responseService = require('../services/response.service');
 
+
 class BaseRouter {
     constructor(router) {
         router.get('/', (req, res) => {
             const result = responseService.responseOk();
             res.json(result);
+        });
+
+        router.get('/404', (req, res, next) => {
+            next(responseService.responseBad())
         });
 
         router.post('/', (req, res) => {
