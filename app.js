@@ -5,11 +5,22 @@ const app = require('express')();
 
 // Routes import
 const index = require('./routes/index.router');
+const planets = require('./routes/planets.router');
+
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('./db/connection.db');
 
 // Middleware register
 app.use(morgan('tiny'));
 
-app.use('/', index);
+app.use('/base', index);
+app.use('/planet', planets);
+
+
+app.use(session({
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+ }));
 
 const server = http.createServer(app);
 
