@@ -2,6 +2,7 @@ const config = require('./config/server.config');
 const http = require('http');
 const morgan = require('morgan');
 const app = require('express')();
+const cookieParser = require('cookie-parser');
 
 // Routes import
 const index = require('./routes/index.router');
@@ -12,6 +13,8 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('./db/connection.db');
 
 app.set('view engine', 'ejs');
+
+app.use(cookieParser());
 
 // Middleware register
 app.use(morgan('tiny'));
