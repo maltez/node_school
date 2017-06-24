@@ -1,26 +1,34 @@
 const config = require('./config/server.config');
 const http = require('http');
+const morgan = require('morgan');
 const app = require('express')();
 const cookieParser = require('cookie-parser');
 
 // Routes import
 const index = require('./routes/index.router');
+const planets = require('./routes/planets.router');
 
-const logger = require('./utilities/logger');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('./db/connection.db');
+
+app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 
 // Middleware register
-app.use(logger);
+app.use(morgan('tiny'));
 
-// Middleware for testing cookie-parser
-app.use((req, res, next)=> {
-    console.log('Cookies: ', req.cookies);
-    next();
-});
 
+app.use('/index', express.static('public'));
 app.use('/', index);
+app.use('/base', index);
+app.use('/planet', planets);
 
+
+app.use(session({
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+ }));
 
 const server = http.createServer(app);
 
