@@ -2,6 +2,7 @@ const config = require('./config/server.config');
 const http = require('http');
 const morgan = require('morgan');
 const app = require('express')();
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 // Routes import
@@ -16,9 +17,14 @@ app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
 // Middleware register
 app.use(morgan('tiny'));
-
 
 app.use('/index', express.static('public'));
 app.use('/', index);
