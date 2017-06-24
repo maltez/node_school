@@ -1,4 +1,7 @@
 module.exports = { 
     port : 3000,
-    host : 'localhost'
+    host : 'localhost',
+    'paths': {
+    	'public': 'public'
+    }
  }
