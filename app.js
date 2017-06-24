@@ -1,12 +1,21 @@
 const config = require('./config/server.config');
 const http = require('http');
+const morgan = require('morgan');
 const app = require('express')();
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 // Routes import
 const index = require('./routes/index.router');
+const planets = require('./routes/planets.router');
 
-const logger = require('./utilities/logger');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('./db/connection.db');
+
+app.set('view engine', 'ejs');
+
+app.use(cookieParser());
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,16 +24,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Middleware register
-app.use(logger);
+app.use(morgan('tiny'));
 
-app.use((req, res, next) => {
-    console.log(JSON.stringify(req.body));
-    next();
-});
+app.use('/index', express.static('public'));
+app.use('/', index);
+app.use('/base', index);
+app.use('/planet', planets);
 
-app.use('/', (req, res)=>{
-    res.sendfile('testForm.html');
-});
+
+app.use(session({
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+ }));
 
 const server = http.createServer(app);
 
