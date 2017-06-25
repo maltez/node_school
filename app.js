@@ -1,14 +1,29 @@
 const config = require('./config/server.config');
 const http = require('http');
+
+const errorhandler = require('errorhandler');
 const morgan = require('morgan');
 const app = require('express')();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+
 // Routes import
 const index = require('./routes/index.router');
 const planets = require('./routes/planets.router');
 
+const logger = require('./utilities/logger');
+const clientErrorHandling = require('./middlewere/clientErrorHandler');
+
+// Middleware register
+app.use(logger);
+app.use('/', index);
+app.use(clientErrorHandling);
+
+// Only use in development
+if (process.env.NODE_ENV === 'development') {
+    app.use(errorhandler())
+}
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('./db/connection.db');

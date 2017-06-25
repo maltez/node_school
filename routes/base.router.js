@@ -1,5 +1,6 @@
 const responseService = require('../services/response.service');
 
+
 class BaseRouter {
     constructor(router) {
         this.router = router;
@@ -9,7 +10,8 @@ class BaseRouter {
     createRoutes() {
         const { router } = this;
         router.get('/', this.get.bind(this));
-        router.post('/', this.post.bind(this))
+        router.get('/404', this.get404.bind(this));
+        router.post('/', this.post.bind(this));
         router.delete('/:id', this.delete.bind(this));
         router.put('/:id', this.put.bind(this));
         router.get('/:id', this.getById.bind(this));
@@ -18,6 +20,10 @@ class BaseRouter {
     get(req, res) {
         const result = responseService.responseOk();
         res.json(result);
+    }
+  
+    get404(req, res, next) {
+      next(responseService.responseBad());
     }
 
     post(req, res) {
